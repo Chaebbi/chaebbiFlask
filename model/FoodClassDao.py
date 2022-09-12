@@ -66,12 +66,12 @@ class FoodClassDao:
             if row == None:
                 break
 
-            nutrientDto['name']=row[2]
-            nutrientDto['capacity'] = row[3]
-            nutrientDto['calory'] = row[4]
-            nutrientDto['carb'] = row[5]
-            nutrientDto['pro'] = row[6]
-            nutrientDto['fat'] = row[7]
+            nutrientDto['name']=row[1]
+            nutrientDto['capacity'] = row[2]
+            nutrientDto['calory'] = row[3]
+            nutrientDto['carb'] = row[4]
+            nutrientDto['pro'] = row[5]
+            nutrientDto['fat'] = row[6]
 
         #Cursor obejct , Databse Connection closing
         cur.close()
