@@ -36,9 +36,9 @@ def create_endpoints(app, services):
         f.save(os.path.join('/var/www/html/flask/chaebbiFlask/static/', filename))     #EC2에서 돌릴땐 이코드
         print('>>>파일이 저장되었습니다')
         #이미지 분류 service
-        food_type = foodclassService.predictFood(filename)
+        food_type, food_id = foodclassService.predictFood(filename)
         # 분류된 이미지의 영양정보 조회 service
-        return foodclassService.foodNutrient(food_type)
+        return foodclassService.foodNutrient(food_id)
 
 
 
