@@ -33,7 +33,7 @@ def create_endpoints(app, services):
         f = request.files['file']
         filename = secure_filename(f.filename)
         #f.save(os.path.join('./static/', filename))    #local 에서 돌릴떈 이 코드
-        f.save(os.path.join('/home/ec2-user/app/ae_FlaskServer/static/', filename))     #EC2에서 돌릴땐 이코드
+        f.save(os.path.join('/var/www/html/flask/chaebbiFlask/static/', filename))     #EC2에서 돌릴땐 이코드
         print('>>>파일이 저장되었습니다')
         #이미지 분류 service
         food_type = foodclassService.predictFood(filename)
