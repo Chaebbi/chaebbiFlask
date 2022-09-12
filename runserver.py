@@ -1,5 +1,6 @@
 import pymysql
 from flask import Flask
+from flask_cors import CORS
 
 from model.FoodDao import FoodDao
 from model.FoodClassDao import FoodClassDao
@@ -16,6 +17,7 @@ class Services:
 ################################
 def create_app():
     app = Flask(__name__)
+    CORS(app)
 
     # Persistence Layer
     foodDao = FoodDao()
