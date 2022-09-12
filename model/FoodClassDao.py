@@ -17,7 +17,7 @@ class FoodClassDao:
         cur = database.cursor()
 
         food_list = []
-        fl = cur.execute("SELECT * FROM food101")
+        fl = cur.execute("SELECT * FROM food276")
         #print(">>food list (from RDS) is :")
         while (True):
             row = cur.fetchone()
