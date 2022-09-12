@@ -19,16 +19,12 @@ class FoodClassDao:
 
         foodList = []
         fl = cur.execute("SELECT * FROM food276")
-        #print(">>food list (from RDS) is :")
         while (True):
             row = cur.fetchone()
             if row == None:
                 break
             foodList.append(row[1])
 
-
-
-        #print(food_list)
 
         print('>>uploaded filename (from USER) is : ' + filename)
 
@@ -62,7 +58,7 @@ class FoodClassDao:
 
         return pred_value, food_id
 
-    def foodNutrient(self,food_id):
+    def foodNutrient(self, food_id):
         # databse connect
         database = pymysql.connect(host=config.HOST, user=config.USER, password=config.PASSWORD,
                                    db=config.DATABASE, charset='utf8', port=config.PORT)
@@ -70,7 +66,7 @@ class FoodClassDao:
         cur = database.cursor()
 
         nutrientDto={}
-        sql = "SELECT * FROM food WHERE food_type = %s"
+        sql = "SELECT * FROM food WHERE food_id = %s"
         cur.execute(sql, food_id)
         while (True):
             row = cur.fetchone()
@@ -87,4 +83,5 @@ class FoodClassDao:
         #Cursor obejct , Databse Connection closing
         cur.close()
         database.close()
+
         return json.dumps(nutrientDto, ensure_ascii=False, indent=4)
