@@ -6,7 +6,8 @@ import numpy as np
 import os
 import config
 
-my_model = load_model('./trainedModel/model_trained.h5')
+#my_model = load_model('./trainedModel/model_trained.h5')   #food101
+my_model = load_model('./trainedModel/trained_model.h5')    #모델 교체
 
 class FoodClassDao:
     def predictFood(self, filename):
@@ -16,18 +17,16 @@ class FoodClassDao:
         # cursor object create
         cur = database.cursor()
 
-        food_list = []
+        foodList = []
         fl = cur.execute("SELECT * FROM food276")
         #print(">>food list (from RDS) is :")
         while (True):
             row = cur.fetchone()
             if row == None:
                 break
-            food_list.append(row[1])
+            foodList.append(row[1])
 
-        # Cursor obejct , Databse Connection closing
-        cur.close()
-        database.close()
+
 
         #print(food_list)
 
@@ -41,9 +40,21 @@ class FoodClassDao:
         pred = my_model.predict(img)
         index = np.argmax(pred)
 
-        food_list.sort()
-        pred_value = food_list[index]
-        print('>>classification result is  : ' +pred_value)
+        foodList.sort()
+        pred_value = foodList[index]
+
+        fl = cur.execute("SELECT * FROM food276 f where f.class = %s", pred_value)
+        while (True):
+            row = cur.fetchone()
+            if row == None:
+                break
+            food_id = row[2]
+
+        print('>>classification result is  : ' + pred_value + "  and food_id(fk) is " + str(food_id))
+
+        # Cursor obejct , Databse Connection closing
+        cur.close()
+        database.close()
 
         if os.path.exists('./static/'+filename):
             os.remove('./static/'+filename)
@@ -51,7 +62,7 @@ class FoodClassDao:
 
         return pred_value
 
-    def foodNutrient(self,food_type):
+    def foodNutrient(self,food_id):
         # databse connect
         database = pymysql.connect(host=config.HOST, user=config.USER, password=config.PASSWORD,
                                    db=config.DATABASE, charset='utf8', port=config.PORT)
@@ -60,7 +71,7 @@ class FoodClassDao:
 
         nutrientDto={}
         sql = "SELECT * FROM food WHERE food_type = %s"
-        cur.execute(sql,food_type)
+        cur.execute(sql, food_id)
         while (True):
             row = cur.fetchone()
             if row == None:
