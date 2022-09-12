@@ -59,7 +59,7 @@ class FoodClassDao:
         cur = database.cursor()
 
         nutrientDto={}
-        sql = "SELECT * FROM nutrient101 WHERE food_type = %s"
+        sql = "SELECT * FROM food WHERE food_type = %s"
         cur.execute(sql,food_type)
         while (True):
             row = cur.fetchone()
