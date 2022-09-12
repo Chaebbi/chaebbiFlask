@@ -60,7 +60,7 @@ class FoodClassDao:
             os.remove('./static/'+filename)
             print('>>파일이 로컬에서 제거되었습니다.<<<')
 
-        return pred_value
+        return pred_value, food_id
 
     def foodNutrient(self,food_id):
         # databse connect
